@@ -7,3 +7,7 @@ export interface CSVData {
 export interface DataTableProps {
   data: CSVData;
 }
+
+export interface FileUploaderProps {
+  onDataLoaded: (data: CSVData) => void;
+}

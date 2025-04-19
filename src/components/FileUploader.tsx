@@ -1,20 +1,40 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { FileUploaderProps } from "@/types/interface";
 import Papa from "papaparse";
-import { CSVData } from "@/types/interface";
-
-interface FileUploaderProps {
-  onDataLoaded: (data: CSVData) => void;
-}
+import { useRef, useState } from "react";
 
 const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoaded }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      processFile(file);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (file) {
+      processFile(file);
+    }
+  };
 
+  const processFile = (file: File) => {
     setIsLoading(true);
     
     Papa.parse(file, {
@@ -31,30 +51,42 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoaded }) => {
         setIsLoading(false);
       }
     });
-  }, [onDataLoaded]);
+  };
 
   return (
-    <div className="border-2 border-dashed border-gray-300 rounded-md p-8 text-center hover:border-gray-400 transition-colors">
-      <label className="flex flex-col items-center cursor-pointer">
-        {isLoading ? (
-          <p className="text-gray-600">Processing CSV...</p>
-        ) : (
-          <>
-            <p className="text-gray-600 mb-2">
-              Click to select a CSV file
-            </p>
-            <p className="text-sm text-gray-400">Only .csv files accepted</p>
-          </>
-        )}
-        <input 
-          type="file"
-          accept=".csv"
-          className="hidden"
-          onChange={handleFileChange}
-        />
-      </label>
+    <div className="space-y-4">
+      <div 
+        {...(isLoading ? {} : {
+          onDragOver: handleDragOver,
+          onDragLeave: handleDragLeave,
+          onDrop: handleDrop
+        })}
+        className={`border-2 border-dashed rounded-md p-8 text-center transition-colors ${
+          isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+        }`}
+      >
+        <label className="flex flex-col items-center cursor-pointer">
+          {isLoading ? (
+            <p className="text-gray-600">Processing CSV...</p>
+          ) : (
+            <>
+              <p className="text-gray-600 mb-2">
+                {isDragging ? 'Drop the CSV file here' : 'Drag & drop a CSV file here, or click to select'}
+              </p>
+              <p className="text-sm text-gray-400">Only .csv files accepted</p>
+            </>
+          )}
+          <input 
+            ref={fileInputRef}
+            type="file"
+            accept=".csv"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+        </label>
+      </div>
     </div>
-  );
+  )
 };
 
 export default FileUploader;
