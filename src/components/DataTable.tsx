@@ -16,16 +16,18 @@ const DataTable: React.FC<DataTableProps> = ({ data, onSave, onEditToggle, isEdi
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full divide-y divide-gray-200">
+      <table className="w-full table-fixed divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            {data.headers.map((header) => (
+            {data.headers.map((header, idx) => (
               <th
                 key={header}
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider truncate"
+                style={{width: idx ? '200px' : '150px'}}
               >
-                {header}
+                <span className="truncate block">{header}</span>
+                {/* {header} */}
               </th>
             ))}
           </tr>
@@ -36,14 +38,14 @@ const DataTable: React.FC<DataTableProps> = ({ data, onSave, onEditToggle, isEdi
               {data.headers.map((header) => (
                 <td
                   key={`${header}-${rowIndex}`}
-                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                  className="px-4 py-4 whitespace-nowrap text-sm text-gray-500"
                 >
                   {isEditing ? (
                     <input
                       type="text"
                       value={row[header] || ''}
                       onChange={(e) => handleCellChange(rowIndex, header, e.target.value)}
-                      className="block border border-gray-300 rounded px-2 py-1 w-max max-w-[calc(100%-1rem)]"
+                      className="block border border-gray-300 rounded px-2 py-1 w-full"
                     />
                   ) : (
                     <span className="block px-2 py-1 truncate">{row[header] || '-'}</span>
