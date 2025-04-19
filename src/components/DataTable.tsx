@@ -23,7 +23,9 @@ const DataTable: React.FC<DataTableProps> = ({
 
   const handleCellChange = (rowIndex: number, header: string, value: string) => {
     const newData = [...editedData];
-    newData[rowIndex][header] = value;
+    // Calculate the original data index from the paginated index
+    const originalIndex = startIndex + rowIndex;
+    newData[originalIndex][header] = value;
     setEditedData(newData);
   };
 
