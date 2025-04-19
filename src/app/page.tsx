@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FileUploader from "@/components/FileUploader";
 import DataTable from "@/components/DataTable";
 import { CSVData } from "@/types/interface";
@@ -13,6 +13,12 @@ export default function Home() {
   };
 
   const [isEditing, setIsEditing] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Reset to first page when data changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [csvData]);
 
   const handleSave = (updatedData: CSVData) => {
     setCsvData(updatedData);
@@ -63,6 +69,8 @@ export default function Home() {
               onSave={handleSave}
               onEditToggle={toggleEdit}
               isEditing={isEditing}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
           </div>
         )}

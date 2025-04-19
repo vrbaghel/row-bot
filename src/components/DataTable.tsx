@@ -1,10 +1,23 @@
 "use client";
 
-import { useState } from "react";
 import { DataTableProps } from "@/types/interface";
+import { useState } from "react";
 
-const DataTable: React.FC<DataTableProps> = ({ data, onSave, onEditToggle, isEditing }) => {
+const DataTable: React.FC<DataTableProps> = ({ 
+  data, 
+  onSave, 
+  onEditToggle, 
+  isEditing,
+  currentPage,
+  setCurrentPage,
+  pageSize = 2
+}) => {
   const [editedData, setEditedData] = useState([...data.rows]);
+  
+  // Calculate pagination
+  const totalPages = Math.ceil(data.rows.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedData = [...data.rows].slice(startIndex, startIndex + pageSize);
 
   if (!data.rows.length) return null;
 
@@ -33,7 +46,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, onSave, onEditToggle, isEdi
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {editedData.map((row, rowIndex) => (
+          {paginatedData.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {data.headers.map((header) => (
                 <td
@@ -48,7 +61,9 @@ const DataTable: React.FC<DataTableProps> = ({ data, onSave, onEditToggle, isEdi
                       className="block border border-gray-300 rounded px-2 py-1 w-full"
                     />
                   ) : (
-                    <span className="block px-2 py-1 truncate">{row[header] || '-'}</span>
+                    <div className="relative truncate px-2 py-1" title={row[header] || undefined}>
+                      {row[header] || '-'}
+                    </div>
                   )}
                 </td>
               ))}
@@ -56,22 +71,44 @@ const DataTable: React.FC<DataTableProps> = ({ data, onSave, onEditToggle, isEdi
           ))}
         </tbody>
       </table>
-      {isEditing && (
-        <div className="mt-4 flex justify-end space-x-2">
+      <div className="mt-4 flex justify-between items-center">
+        {isEditing ? (
+          <div className="flex space-x-2">
+            <button
+              onClick={() => onSave({...data, rows: editedData})}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition-colors"
+            >
+              Save Changes
+            </button>
+            <button
+              onClick={onEditToggle}
+              className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : <div />}
+
+        <div className="flex items-center space-x-4">
           <button
-            onClick={() => onSave({...data, rows: editedData})}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition-colors"
+            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 rounded ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'}`}
           >
-            Save Changes
+            Previous
           </button>
+          <span className="text-sm text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
           <button
-            onClick={onEditToggle}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded transition-colors"
+            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 rounded ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'}`}
           >
-            Cancel
+            Next
           </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };

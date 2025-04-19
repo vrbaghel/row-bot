@@ -9,6 +9,9 @@ export interface DataTableProps {
   onSave: (data: CSVData) => void;
   onEditToggle: () => void;
   isEditing: boolean;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  pageSize?: number;
 }
 
 export interface FileUploaderProps {
