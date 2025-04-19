@@ -61,11 +61,11 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoaded }) => {
           onDragLeave: handleDragLeave,
           onDrop: handleDrop
         })}
-        className={`border-2 border-dashed rounded-md p-8 text-center transition-colors ${
+        className={`border-2 border-dashed rounded-md text-center transition-colors ${
           isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
         }`}
       >
-        <label className="flex flex-col items-center cursor-pointer">
+        <label htmlFor="uploader" className="flex flex-col items-center cursor-pointer p-8">
           {isLoading ? (
             <p className="text-gray-600">Processing CSV...</p>
           ) : (
@@ -77,6 +77,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoaded }) => {
             </>
           )}
           <input 
+            id="uploader"
             ref={fileInputRef}
             type="file"
             accept=".csv"

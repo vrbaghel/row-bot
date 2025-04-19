@@ -16,7 +16,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, onSave, onEditToggle, isEdi
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
+      <table className="w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
             {data.headers.map((header) => (
@@ -43,10 +43,10 @@ const DataTable: React.FC<DataTableProps> = ({ data, onSave, onEditToggle, isEdi
                       type="text"
                       value={row[header] || ''}
                       onChange={(e) => handleCellChange(rowIndex, header, e.target.value)}
-                      className="border border-gray-300 rounded px-2 py-1 w-full"
+                      className="block border border-gray-300 rounded px-2 py-1 w-max max-w-[calc(100%-1rem)]"
                     />
                   ) : (
-                    row[header] || '-'
+                    <span className="block px-2 py-1 truncate">{row[header] || '-'}</span>
                   )}
                 </td>
               ))}
