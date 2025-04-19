@@ -12,6 +12,17 @@ export default function Home() {
     setCsvData(null);
   };
 
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleSave = (updatedData: CSVData) => {
+    setCsvData(updatedData);
+    setIsEditing(false);
+  };
+
+  const toggleEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <main className="max-w-6xl mx-auto">
@@ -30,14 +41,29 @@ export default function Home() {
                   Showing {csvData.rows.length} rows from {csvData.fileName}
                 </p>
               </div>
-              <button
-                onClick={handleReset}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded transition-colors"
-              >
-                Upload New File
-              </button>
+              <div className="flex space-x-2">
+                {!isEditing ? (
+                  <button
+                    onClick={toggleEdit}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition-colors"
+                  >
+                    Edit Table
+                  </button>
+                ) : null}
+                <button
+                  onClick={handleReset}
+                  className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded transition-colors"
+                >
+                  Upload New File
+                </button>
+              </div>
             </div>
-            <DataTable data={csvData} />
+            <DataTable 
+              data={csvData} 
+              onSave={handleSave}
+              onEditToggle={toggleEdit}
+              isEditing={isEditing}
+            />
           </div>
         )}
       </main>

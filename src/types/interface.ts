@@ -6,6 +6,9 @@ export interface CSVData {
 
 export interface DataTableProps {
   data: CSVData;
+  onSave: (data: CSVData) => void;
+  onEditToggle: () => void;
+  isEditing: boolean;
 }
 
 export interface FileUploaderProps {
