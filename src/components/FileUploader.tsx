@@ -35,20 +35,48 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoaded }) => {
   };
 
   const processFile = (file: File) => {
+    // Validate file size (<5MB) and type
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File too large (max 5MB)');
+      return;
+    }
+    if (!file.name.endsWith('.csv')) {
+      alert('Only CSV files are supported');
+      return;
+    }
+
     setIsLoading(true);
     
     Papa.parse(file, {
       header: true,
+      skipEmptyLines: true,
       complete: (results) => {
-        onDataLoaded({
-          fileName: file.name,
-          headers: results.meta.fields || [],
-          rows: results.data as Record<string, string>[]
-        });
-        setIsLoading(false);
+        try {
+          if (!results.meta.fields || results.meta.fields.length === 0) {
+            throw new Error('No headers detected - check CSV format');
+          }
+
+          const rows = results.data as Record<string, string>[];
+          if (rows.length === 0) {
+            throw new Error('CSV contains no data rows');
+          }
+
+          onDataLoaded({
+            fileName: file.name,
+            headers: results.meta.fields,
+            rows
+          });
+        } catch (error) {
+          alert(`${file.name} error: ${error}`);
+          if (fileInputRef.current) fileInputRef.current.value = '';
+        } finally {
+          setIsLoading(false);
+        }
       },
-      error: () => {
+      error: (error) => {
+        alert(`Failed to parse CSV: ${error.message}`);
         setIsLoading(false);
+        if (fileInputRef.current) fileInputRef.current.value = '';
       }
     });
   };
