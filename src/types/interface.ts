@@ -1,7 +1,13 @@
+export interface CRMConfig {
+  // Placeholder for future CRM configuration
+  enabled?: boolean;
+}
+
 export interface CSVData {
   fileName: string;
   headers: string[];
   rows: Record<string, string>[];
+  crmConfig?: CRMConfig;
 }
 
 export interface DataTableProps {

@@ -80,7 +80,7 @@ const DataTable: React.FC<DataTableProps> = ({
           <div className="flex space-x-2">
             <button
               onClick={() => onSave({ ...data, rows: editedData })}
-              className="bg-black hover:bg-white text-white hover:text-black border-2 border-black  font-medium py-2 px-4 rounded-full transition-colors cursor-pointer"
+              className="bg-black hover:bg-white text-white hover:text-black border-2 border-black font-medium py-2 px-4 rounded-full transition-colors cursor-pointer"
             >
               Save Changes
             </button>
@@ -91,7 +91,20 @@ const DataTable: React.FC<DataTableProps> = ({
               Cancel
             </button>
           </div>
-        ) : <div />}
+        ) : (
+          <div className="flex space-x-2">
+            <button
+              disabled
+              title="CRM integration coming soon"
+              className="bg-gray-200 text-gray-400 font-medium py-2 px-4 rounded-full transition-colors cursor-not-allowed flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+              </svg>
+              Sync to CRM
+            </button>
+          </div>
+        )}
         <div className="flex items-center space-x-4">
           <button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
