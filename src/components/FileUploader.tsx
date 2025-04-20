@@ -54,7 +54,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoaded }) => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 bg-white">
       <div 
         {...(isLoading ? {} : {
           onDragOver: handleDragOver,
@@ -62,7 +62,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoaded }) => {
           onDrop: handleDrop
         })}
         className={`border-2 border-dashed rounded-md text-center transition-colors ${
-          isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+          isDragging ? 'border-blue-300 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
         }`}
       >
         <label htmlFor="uploader" className="flex flex-col items-center cursor-pointer p-8">
