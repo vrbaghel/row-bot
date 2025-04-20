@@ -9,7 +9,7 @@
 - Drag & Drop CSV file upload
 - Edit data inline with validation
 - Paginate through large datasets
-- Intuitive UI
+- Intuitive UI with a cute logo generated with Sora
 - Coming soon: CRM model bridging
 
 ## Getting Started

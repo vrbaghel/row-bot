@@ -1,6 +1,8 @@
+// Configuration for CRM integration (future feature)
 export interface CRMConfig {
-  // Placeholder for future CRM configuration
-  enabled?: boolean;
+  enabled?: boolean; // Toggle CRM sync functionality
+  apiKey?: string;   // Authentication key for CRM API
+  endpoint?: string; // URL for CRM API endpoints
 }
 
 export interface CSVData {

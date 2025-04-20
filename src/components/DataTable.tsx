@@ -21,12 +21,13 @@ const DataTable: React.FC<DataTableProps> = ({
 
   if (!data.rows.length) return null;
 
+  // Handle edits to cell values while preserving pagination state
   const handleCellChange = (rowIndex: number, header: string, value: string) => {
-    const newData = [...editedData];
-    // Calculate the original data index from the paginated index
+    const newData = [...editedData]; // Copy current data to avoid direct state mutation
+    // Map paginated row index back to full dataset index  
     const originalIndex = startIndex + rowIndex;
-    newData[originalIndex][header] = value;
-    setEditedData(newData);
+    newData[originalIndex][header] = value; // Update specific cell
+    setEditedData(newData); // Save edited data
   };
 
   return (

@@ -82,6 +82,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onDataLoaded }) => {
   };
 
   return (
+    // File upload zone with drag-and-drop support
     <div className="space-y-4 bg-white">
       <div 
         {...(isLoading ? {} : {

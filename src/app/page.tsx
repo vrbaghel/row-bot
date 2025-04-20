@@ -9,8 +9,10 @@ import Image from "next/image";
 export default function Home() {
   const [csvData, setCsvData] = useState<CSVData | null>(null);
 
+  // Reset the app state when uploading a new file
   const handleReset = () => {
-    setCsvData(null);
+    setCsvData(null);    // Clear current CSV data
+    setIsEditing(false); // Exit edit mode if active
   };
 
   const [isEditing, setIsEditing] = useState(false);

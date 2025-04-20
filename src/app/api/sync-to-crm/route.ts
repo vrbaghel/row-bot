@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+// Placeholder for future CRM integration API endpoint
 export async function POST() {
   return NextResponse.json(
     { 
