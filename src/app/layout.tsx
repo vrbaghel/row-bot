@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Rowbot",
-  description: "Lightweight tool for parsing tabular data and bridging CSVs with ORM models.",
+  description: "Lightweight tool for parsing tabular data and bridging CSVs with CRM models.",
 };
 
 export default function RootLayout({

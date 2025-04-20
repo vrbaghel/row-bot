@@ -36,7 +36,7 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center mb-8">
           <Image width={100} height={100} src="/logo.png" alt="rowbot app logo" className="w-16 object-contain bg-black rounded-full p-2 mb-1" />
           <h1 className="text-3xl font-bold text-gray-800">*rowbot</h1>
-          <h2 className="text-base font-base text-gray-800">Lightweight tool for parsing tabular data and bridging CSVs with ORM models.</h2>
+          <h2 className="text-base font-base text-gray-800">Lightweight tool for parsing tabular data and bridging CSVs with CRM models.</h2>
         </div>
 
         {!csvData ? (
